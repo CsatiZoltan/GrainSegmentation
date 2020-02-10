@@ -56,6 +56,31 @@ class GrainSegmentation():
             io.imshow(self.original_image)
 
     
+    
+    def initial_segmentation(self, *args):
+        """Perform the quick shift superpixel segmentation on an image.
+        The quick shift algorithm is invoked with its default parameters.
+        
+        Parameters
+        ----------
+        *args : 3D numpy array with size 3 in the third dimension
+            Input image to be segmented. If not given, the original image is used.
+
+        Returns
+        -------
+        segment_mask : numpy array
+            Label image, output of the quick shift algorithm.
+        """
+        
+        if args:
+            image = args[0]
+        else:
+            image = self.original_image
+        segment_mask = segmentation.quickshift(image)
+        return segment_mask
+    
+    
+    
     def build_graph(self):
         
         pass
@@ -64,9 +89,7 @@ class GrainSegmentation():
         
         pass
     
-    def initial_segmentation(self):
-        
-        pass
+    
     
     def merge_clusters(self):
         
