@@ -155,10 +155,47 @@ class GrainSegmentation():
                   'Number of segments: {0}'.format(np.amax(merged_superpixels)))
         return merged_superpixels
 
-    def find_grain_boundaries(self):
-        
-        pass
+    def find_grain_boundaries(self, segmented_image):
+        """Find the grain boundaries.
 
-    def create_skeleton(self):
-        
-        pass
+        Parameters
+        ----------
+        segmented_image : ndarray
+            Label image, output of a segmentation.
+
+        Returns
+        -------
+        boundary : bool ndarray
+            A bool ndarray, where True represents a boundary pixel. 
+        """
+
+        boundary = segmentation.find_boundaries(segmented_image)
+        if self.__interactive_mode:
+            # Superimpose the boundaries of the segmented image on the original image
+            superimposed = segmentation.mark_boundaries(self.original_image,
+                                                        segmented_image, mode='thick')
+            io.imshow(superimposed)
+            io.show()
+            print('Grain boundaries found.')
+        return boundary
+
+    def create_skeleton(self, boundary_image):
+        """Use thinning on the grain boundary image to obtain a single-pixel wide skeleton.
+
+        Parameters
+        ----------
+        boundary_image : bool ndarray
+            A binary image containing the objects to be skeletonized.
+
+        Returns
+        -------
+        skeleton : bool ndarray
+            Thinned image.
+        """
+
+        skeleton = skeletonize(boundary_image)
+        if self.__interactive_mode:
+            io.imshow(skeleton)
+            io.show()
+            print('Skeleton constructed.')
+        return skeleton
