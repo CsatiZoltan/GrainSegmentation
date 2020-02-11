@@ -5,6 +5,7 @@ segmentation of grain-based materials (rocks, metals, etc.)
 
 import os.path as path
 import numpy as np
+import scipy.ndimage as ndi
 import matplotlib.pyplot as plt
 from skimage import io, segmentation, color, measure
 from skimage.future import graph
@@ -57,6 +58,36 @@ class GrainSegmentation():
             io.show()
             print('Image successfully loaded.')
 
+    def filter_image(self, window_size, image_matrix=None):
+        """Median filtering on an image.
+        The median filter is useful in our case as it preserves the important
+        borders (i.e. the grain boundaries).
+
+        Parameters
+        ----------
+        window_size : int
+            Size of the sampling window.
+        image_matrix : 3D ndarray with size 3 in the third dimension, optional
+            Input image to be filtered. If not given, the original image is used.
+
+        Returns
+        -------
+        filtered_image : 3D ndarray with size 3 in the third dimension
+            Filtered image, output of the median filter algorithm.
+        """
+
+        if image_matrix is None:
+            image = self.original_image
+        else:
+            assert np.shape(image_matrix)[2],\
+                   'ndarray with size 3 in the third dimension expected.'
+        filtered_image = ndi.median_filter(image, window_size)
+        if self.__interactive_mode:
+            io.imshow(filtered_image)
+            io.show()
+            print('Median filtering finished.')
+        return filtered_image
+
     def initial_segmentation(self, *args):
         """Perform the quick shift superpixel segmentation on an image.
         The quick shift algorithm is invoked with its default parameters.
@@ -89,12 +120,6 @@ class GrainSegmentation():
     def build_graph(self):
         
         pass
-    
-    def filter_image(self):
-        
-        pass
-    
-    
     
     def merge_clusters(self):
         
