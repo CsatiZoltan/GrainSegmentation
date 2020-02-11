@@ -4,9 +4,10 @@ segmentation of grain-based materials (rocks, metals, etc.)
 """
 
 import os.path as path
+
 import numpy as np
-import scipy.ndimage as ndi
 import matplotlib.pyplot as plt
+import scipy.ndimage as ndi
 from skimage import io, segmentation, color, measure
 from skimage.future import graph
 from skimage.morphology import skeletonize
@@ -15,6 +16,13 @@ from skimage.util import img_as_uint
 
 class GrainSegmentation():
     """Segmentation of grain-based microstructures
+
+    Attributes
+    ----------
+    original_image : ndarray
+        Matrix representing the initial, unprocessed image.
+    save_location : str
+        Directory where the processed images are saved
     """
 
     def __init__(self, image_location, save_location=None, interactive_mode=True):
@@ -147,15 +155,10 @@ class GrainSegmentation():
                   'Number of segments: {0}'.format(np.amax(merged_superpixels)))
         return merged_superpixels
 
-    def build_graph(self):
-        
-        pass
-    
     def find_grain_boundaries(self):
         
         pass
-    
+
     def create_skeleton(self):
         
         pass
-
