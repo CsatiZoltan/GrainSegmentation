@@ -50,7 +50,7 @@ class GrainSegmentation():
         else:
             self.save_location = save_location
         self.__interactive_mode = interactive_mode
-        
+        self.__stored_graph = None
         # Load the image and optionally show it
         self.original_image = io.imread(image_location)
         if self.__interactive_mode:
@@ -114,14 +114,40 @@ class GrainSegmentation():
             print('Quick shift segmentation finished. '
                   'Number of segments: {0}'.format(np.amax(segment_mask)))
         return segment_mask
-    
-    
-    
+
+    def merge_clusters(self, segmented_image, threshold=5):
+        """Merge tiny superpixel clusters.
+        Superpixel segmentations result in oversegmented images. Based on graph
+        theoretic tools, similar clusters are merged.
+
+        Parameters
+        ----------
+        segmented_image : ndarray
+            Label image, output of a segmentation.
+        threshold : float, optional
+            Regions connected by edges with smaller weights are combined.
+
+        Returns
+        -------
+        merged_superpixels : ndarray
+            The new labelled array.
+        """
+
+        if self.__stored_graph is None:
+            # Region Adjacency Graph (RAG) not yet determined -> compute it
+            g = graph.rag_mean_color(self.original_image, segmented_image)
+            self.__stored_graph = g
+        else:
+            g = self.__stored_graph
+        merged_superpixels = graph.cut_threshold(segmented_image, g, threshold, in_place=False)
+        if self.__interactive_mode:
+            io.imshow(color.label2rgb(merged_superpixels, self.original_image, kind='avg'))
+            io.show()
+            print('Tiny clusters merged. '
+                  'Number of segments: {0}'.format(np.amax(merged_superpixels)))
+        return merged_superpixels
+
     def build_graph(self):
-        
-        pass
-    
-    def merge_clusters(self):
         
         pass
     
