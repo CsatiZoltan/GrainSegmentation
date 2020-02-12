@@ -6,12 +6,13 @@ segmentation of grain-based materials (rocks, metals, etc.)
 import os.path as path
 
 import numpy as np
-import matplotlib.pyplot as plt
 import scipy.ndimage as ndi
+from scipy.ndimage.morphology import distance_transform_edt
 from skimage import io, segmentation, color, measure
 from skimage.future import graph
-from skimage.morphology import skeletonize
-from skimage.util import img_as_uint
+from skimage.morphology import skeletonize, watershed
+
+from gala_light import imextendedmin
 
 
 class GrainSegmentation():
@@ -107,7 +108,7 @@ class GrainSegmentation():
 
         Returns
         -------
-        segment_mask : numpy array
+        segment_mask : ndarray
             Label image, output of the quick shift algorithm.
         """
 
@@ -166,7 +167,7 @@ class GrainSegmentation():
         Returns
         -------
         boundary : bool ndarray
-            A bool ndarray, where True represents a boundary pixel. 
+            A bool ndarray, where True represents a boundary pixel.
         """
 
         boundary = segmentation.find_boundaries(segmented_image)
@@ -199,3 +200,37 @@ class GrainSegmentation():
             io.show()
             print('Skeleton constructed.')
         return skeleton
+
+    def watershed_segmentation(self, skeleton):
+        """Watershed segmentation of a granular microstructure.
+        Uses the watershed transform to label non-overlapping grains in a cellular
+        microstructure given by the grain boundaries.
+
+        Parameters
+        ----------
+        skeleton : bool ndarray
+            A binary image, the skeletonized grain boundaries.
+
+        Returns
+        -------
+        segmented : ndarray
+            Label image, output of the watershed segmentation.
+        """
+        assert skeleton.dtype.name == 'bool', 'A numpy array of type bool expected.'
+        # Create a distance function whose maxima will serve as watershed basins
+        distance_function = distance_transform_edt(1-skeleton)
+        # Turn the distance function to a negative distance function for watershed
+        distance_function = np.negative(distance_function)
+        # Do not yet use watershed as that would result an oversegmented image
+        # (each local minima of the distance function would become a catchment basin).
+        # Hence, first execute the extended-minima transform to find the regional minima
+        mask = imextendedmin(distance_function, 2)
+        # The watershed segmentation can now be performed
+        labelled = measure.label(mask)
+        segmented = watershed(distance_function, labelled)
+        if self.__interactive_mode:
+            io.imshow(color.label2rgb(segmented))
+            io.show()
+            print('Watershed segmentation finished. '
+                  'Number of segments: {0}'.format(np.amax(segmented)))
+        return segmented
