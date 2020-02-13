@@ -80,11 +80,16 @@ You can now install *pyimagej* following the official [installation instructions
    conda activate imagepy
    python setup.py install
    ```
-   If you want to remove the environment you have just created, type
+4. To check whether *ImagePy* is recognized:
    ```bash
-   conda remove --name imagepy --all
+    conda list | grep "imagepy"
    ```
    When the installation is done, you can start *ImagePy* with `python -m imagepy`.
+
+If you want to remove the environment you have just created, type
+```bash
+conda remove --name imagepy --all
+```
 
 
 
@@ -99,25 +104,33 @@ Since both *ImagePy* and *ImageJ* are needed for a good segmentation result, it 
    conda config --add channels conda-forge
    conda config --set channel_priority strict
    ```
-4. Download or clone the *ImagePy* repository
+4. Install *pyimagej* and those requirements for *ImagePy* that can be fetched from conda-forge. We create an isolated environment so that it does not interfere with our existing Python installation.
    ```bash
-   git clone git://github.com/Image-Py/imagepy
+   conda create -n combined pyimagej openjdk=8 numba numpy-stl openpyxl pandas pydicom pypubsub read-roi scikit-image scikit-learn shapely wxpython xlrd xlwt markdown python-markdown-math moderngl
+   ```
+5. Activate the new environment, called *combined*. This is important so that *ImagePy* is installed there.
+   ```
+   conda activate combined
+   ```
+6. We will use pip to install the remaining required packages for *ImagePy*, which couldn't be obtained from conda-forge
+   ```bash
+   python -m pip install pystackreg
+   ```
+7. Download and install *ImagePy*
+   ```bash
+   git clone https://github.com/Image-Py/imagepy
    cd imagepy
-   ```
-5. Copy the `environment.yml` from **this** repository to the root of the previously downloaded *ImagePy* repository, overwriting the existing file. This file essentially contains the dependencies both for *ImagePy* and for *pyimagej*. It was created by first installing *pyimagej*, then issuing `conda env export > environment.yml`, finally inserting the *ImagePy* dependencies to this file and changing the name of the environment to *imagepy+pyimagej*.
-6. Install *pyimagej* and the dependencies of *ImagePy* to an isolated environment, and then activate the newly created environment
-   ```bash
-   conda env create
-   conda activate imagepy+pyimagej
-   ```
-7. Install *ImagePy* to this new environment
-   ```
    python setup.py install
    ```
-   The following commands must both give a non-empty output
+8. The following commands must both give a non-empty output
    ```bash
    conda list | grep "imagepy"
    conda list | grep "pyimagej"
+   ```
+9. Delete the *ImagePy* folder. We don't need it any more and we want to avoid accidentally launching *ImagePy* from here.
+   ```bash
+   cd ..
+   rm -r imagepy/
    ```
 
 
