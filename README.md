@@ -197,11 +197,11 @@ Contributions to this open source project are welcome, supposing you accept our 
 
 ### What can you help in?
 
-- Suggestions for improved segmentation algorithms
+- Suggestions for improved segmentation algorithms  
   This is the most important aspect.
-- Improve the documentation
+- Improve the documentation  
   Let me know about typos and inconsistencies in the documentation (this README file, comments in the source code).
-- Improve the *ImagePy* integration
+- Improve the *ImagePy* integration  
   As I am new to *ImagePy*, suggestions are definitely welcome. Those who are new to *ImagePy*, the best sources are the
   - [official page](https://github.com/Image-Py/imagepy)
   - [detailed tutorial](https://github.com/Image-Py/demoplugin) on how to write *ImagePy* plugins
@@ -212,13 +212,14 @@ Contributions to this open source project are welcome, supposing you accept our 
 ## Design considerations
 
 The philosophy behind this project:
-- Open source
-  Being on the public domain is important for open science (reproducibility) and helps collaboration.
-- Free software
-  The project only uses components that are [free](https://www.gnu.org/philosophy/free-sw.en.html).
-- Modularity
-  The GUI and the image segmentation algorithms are completely separated. We also strive for as few dependencies as possible.
-- Conforming to coding conventions
+
+- Open source  
+   Being on the public domain is important for open science (reproducibility) and helps collaboration.
+- Free software  
+   The project only uses components that are [free](https://www.gnu.org/philosophy/free-sw.en.html).
+- Modularity  
+   The GUI and the image segmentation algorithms are completely separated. We also strive for as few dependencies as possible.
+- Conforming to coding conventions  
   As code is read more often than written, we adhere to the PEP guidelines. Specifically, [PEP 8](https://www.python.org/dev/peps/pep-0008/) for code layout and naming conventions, and [PEP 257](https://www.python.org/dev/peps/pep-0257/) for documentation.
-- Well-documented
+- Well-documented  
   The documentation is written at the same time as the code. It not only ensures that the documentation does not lag behind the code but it also promotes better understanding of the algorithms.
