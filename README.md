@@ -138,6 +138,16 @@ Since both *ImagePy* and *ImageJ* are needed for a good segmentation result, it 
 
 ## Usage
 
+Depending on which parts you want to use of this code, make sure you meet the [requirements](#dependencies) and that you successfully [install](#installation) the dependencies.
+
+### Only Python without GUI
+
+The basic algorithms are contained in [grain_segmentation.py](https://github.com/CsatiZoltan/GrainSegmentation/blob/master/src/grain_segmentation.py) and [gala_light.py](https://github.com/CsatiZoltan/GrainSegmentation/blob/master/src/gala_light.py), found in the [src/](https://github.com/CsatiZoltan/GrainSegmentation/tree/master/src) directory. The methods in the **GrainSegmentation** class are given in an order that is expected in a usual workflow (e.g. filtering before segmentation). An actual example can be found in the [test_gs.py](https://github.com/CsatiZoltan/GrainSegmentation/blob/master/src/test_gs.py) script.
+
+### Using the GUI
+
+Image segmentation algorithms do not give perfect results in our case. A fully automatic workflow is not possible. You need manual corrections to split large regions (result of undersegmentation) or merge tiny ones (result of oversegmentation). This is done by comparing the segmented image with the original one. *ImagePy* is a good choice for this purpose.
+
 
 
 ## Troubleshooting
