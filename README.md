@@ -16,6 +16,7 @@ Identification of individual grains in microscopic images
    - [full installation](#full-installation)
 - [Usage](#usage)
 - [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
 
 
 
@@ -27,7 +28,7 @@ Identification of individual grains in microscopic images
 
 Depending on the features you want to use, the requirements are different:
 1. Image segmentation algorithms
-The only requirements are Python 3 with the following packages:
+   The only requirements are Python 3 with the following packages:
    - scipy
    - numpy
    - scikit-image (a.k.a. skimage)
@@ -168,6 +169,28 @@ throws no error, *pyimagej* work properly on your machine.
 
 
 
-### Other problems
+### Getting help
 
-If you have other problems using these tools, [open an issue](https://github.com/CsatiZoltan/GrainSegmentation/issues/new) on GitHub after reading the [existing ones](https://github.com/CsatiZoltan/GrainSegmentation/issues).
+If you have other problems using these tools, [open an issue](https://github.com/CsatiZoltan/GrainSegmentation/issues/new) on GitHub after reading the [existing ones](https://github.com/CsatiZoltan/GrainSegmentation/issues) or discuss it on [Gitter](https://gitter.im/Grain-Segmentation/community).
+
+
+
+## Contributing
+
+Contributions to this open source project are welcome.
+
+### How can you contribute?
+
+- Send a pull request
+- Discuss ideas on [Gitter](https://gitter.im/Grain-Segmentation/community)
+
+### What can you help in?
+- Suggestions for improved segmentation algorithms
+  This is the most important aspect.
+- Improve the documentation
+  Let me know about typos and inconsistencies in the documentation (this README file, comments in the source code).
+- Improve the *ImagePy* integration
+  As I am new to *ImagePy*, suggestions are definitely welcome. Those who are new to *ImagePy*, the best sources are the
+  - [official page](https://github.com/Image-Py/imagepy)
+  - [detailed tutorial](https://github.com/Image-Py/demoplugin) on how to write *ImagePy* plugins
+  - [image.sc forum](https://forum.image.sc/tag/imagepy), where you can find tutorials and can ask questions
