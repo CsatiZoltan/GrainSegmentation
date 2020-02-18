@@ -15,7 +15,7 @@ from skimage.morphology import skeletonize, watershed
 from gala_light import imextendedmin
 
 
-class GrainSegmentation():
+class GrainSegmentation:
     """Segmentation of grain-based microstructures
 
     Attributes
@@ -47,12 +47,13 @@ class GrainSegmentation():
         """
 
         # Check inputs
-        assert path.isfile(image_location), 'Image file {0} does not exist'.format(image_location)
+        if not path.isfile(image_location):
+            raise Exception('Image file {0} does not exist'.format(image_location))
         extension = path.splitext(image_location)[1][1:]
         allowed_extensions = ['png', 'bmp', 'tiff']
-        assert extension in allowed_extensions, \
-            'Unsupported image file type {0}. Choose from one of the following \
-             image types: {1}.'.format(extension, allowed_extensions)
+        if extension not in allowed_extensions:
+            raise Exception('Unsupported image file type {0}. Choose from one of the following \
+             image types: {1}.'.format(extension, allowed_extensions))
         self.image_location = image_location
         if save_location is None:
             self.save_location = path.dirname(image_location)
@@ -88,8 +89,12 @@ class GrainSegmentation():
         if image_matrix is None:
             image = self.original_image
         else:
-            assert np.shape(image_matrix)[2],\
-                   'ndarray with size 3 in the third dimension expected.'
+            not_ndarray = not isinstance(image_matrix, np.ndarray)
+            wrong_shape = len(np.shape(image_matrix)) is not 3 or np.shape(image_matrix)[2] is not 3
+            if not_ndarray or wrong_shape:
+                raise Exception('3D ndarray with size 3 in the third dimension expected.')
+            else:
+                image = image_matrix
         filtered_image = ndi.median_filter(image, window_size)
         if self.__interactive_mode:
             io.imshow(filtered_image)
@@ -216,7 +221,8 @@ class GrainSegmentation():
         segmented : ndarray
             Label image, output of the watershed segmentation.
         """
-        assert skeleton.dtype.name == 'bool', 'A numpy array of type bool expected.'
+        if skeleton.dtype.name is not 'bool':
+            raise Exception('A numpy array of type bool expected.')
         # Create a distance function whose maxima will serve as watershed basins
         distance_function = distance_transform_edt(1-skeleton)
         # Turn the distance function to a negative distance function for watershed
