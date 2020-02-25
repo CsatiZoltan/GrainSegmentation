@@ -10,3 +10,5 @@ class Transfer:
 
 
 storage = Transfer()
+
+catlog = ['Workflow', 'Demos', 'Help', '-']
