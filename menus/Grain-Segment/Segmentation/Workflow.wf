@@ -1,0 +1,18 @@
+Title of the widget
+==================
+## Preprocessing
+1. Open image
+Short doc
+2. Filter image
+Short doc
+## Segmentation
+1. Quick shift segmentation
+Short doc
+2. Merge tiny clusters
+Short doc
+3. Find grain boundaries
+Short doc
+4. Create skeleton
+Short doc
+5. Watershed segmentation
+Short doc
