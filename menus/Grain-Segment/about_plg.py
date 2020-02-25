@@ -4,8 +4,10 @@ from imagepy.core.engine import Free
 from imagepy import IPy
 
 
-about_message = 'Author: Zoltan Csati\nLicense: MIT\nSpecial thanks to Yan Xiaolong.\n' \
-                'Libraries used:\n\tx\n\ty'
+about_message = 'This program is free software under the GNU General Public License v3.0\n\n' \
+                'Developer: Zoltan Csati (special thanks to Yan Xiaolong)\n\n' \
+                'Software used: ImagePy\n\n' \
+                'Home page: https://github.com/CsatiZoltan/GrainSegmentation'
 
 
 class About(Free):
