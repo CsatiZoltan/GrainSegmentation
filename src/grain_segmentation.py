@@ -51,7 +51,7 @@ class GrainSegmentation:
             raise Exception('Image file {0} does not exist'.format(image_location))
         extension = path.splitext(image_location)[1][1:]
         allowed_extensions = ['png', 'bmp', 'tiff']
-        if extension not in allowed_extensions:
+        if extension.lower() not in allowed_extensions:
             raise Exception('Unsupported image file type {0}. Choose from one of the following \
              image types: {1}.'.format(extension, allowed_extensions))
         self.image_location = image_location
