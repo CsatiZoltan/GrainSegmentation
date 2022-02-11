@@ -57,7 +57,7 @@ class FilterImage(Median):
     def load(self, ips):
         super().load(ips)
         ips.data = DuplicateNoGUI.copy(ips, ips.title)  # create a copy from the original image
-        ips.title = ips.title + '-filtered'  # rename original image
+        ips.title = f'{ips.title}-filtered'
         return True
 
     def run(self, ips, snap, img, para = None):
@@ -75,7 +75,10 @@ class InitialSegmentation(Quickshift):
         storage.segment_mask = segment_mask
         print(np.amax(segment_mask))
         # The final image is opened on a new tab
-        IPy.show_img([color.label2rgb(segment_mask, storage.original_image, kind='avg')], ips.title + '-segmented')
+        IPy.show_img(
+            [color.label2rgb(segment_mask, storage.original_image, kind='avg')],
+            f'{ips.title}-segmented',
+        )
 
 
 class MergeClusters(RagThreshold):
